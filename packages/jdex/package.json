@@ -1,0 +1,30 @@
+{
+  "name": "jdex",
+  "version": "0.0.2",
+  "description": "Jdex core types and scripts.",
+  "license": "MIT",
+  "homepage": "https://github.com/bitbean/jdex",
+  "bugs": {
+    "url": "https://github.com/bitbean/jdex/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitbean/jdex.git"
+  },
+  "keywords": [
+    "json",
+    "database",
+    "db",
+    "filesystem",
+    "fs"
+  ],
+  "main": "",
+  "types": "types/index.d.ts",
+  "files": [
+    "README.md",
+    "types"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
+}
