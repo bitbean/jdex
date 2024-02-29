@@ -1,7 +1,7 @@
 {
-  "name": "jdex",
+  "name": "@jdex/server",
   "version": "1.0.0",
-  "description": "Jdex core types and scripts.",
+  "description": "Jdex server library.",
   "license": "MIT",
   "homepage": "https://github.com/bitbean/jdex",
   "bugs": {

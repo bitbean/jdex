@@ -7,7 +7,15 @@
     {
       "name": "packages/jdex",
       "path": "packages/jdex"
-    }
+    },
+    {
+      "name": "packages/server",
+      "path": "packages/server"
+    },
+    {
+      "name": "packages/client",
+      "path": "packages/client"
+    },
   ],
   // Settings to apply when VS Code is started with this `.code-workspace`
   // file. Each of the workspace folders above can also have their own
