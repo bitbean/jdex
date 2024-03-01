@@ -5,6 +5,11 @@
   "license": "MIT",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "./packages/jdex",
+    "./packages/server",
+    "./packages/client"
+  ],
   "scripts": {
     "audit": "NODE_ENV=production npm audit",
     "build": "npm run build --ws --if-present",
@@ -12,13 +17,19 @@
     "lint-ts": "npm run lint-ts --ws --if-present",
     "rand": "cat /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c${C:-32};echo;",
     "rand-help": "echo 'Change count by running `C=21 npm run rand`'",
+    "start": "nodemon",
     "test": "npm run test --workspaces --if-present"
   },
-  "workspaces": [
-    "./packages/jdex",
-    "./packages/server",
-    "./packages/client"
-  ],
+  "nodemonConfig": {
+    "delay": "250ms",
+    "exec": "run-s lint-ts build",
+    "ext": "js,ts",
+    "watch": [
+      "./packages/jdex/src/",
+      "./packages/server/src/",
+      "./packages/client/src/"
+    ]
+  },
   "devDependencies": {
     "@types/node": "^20.11.22",
     "@types/uuid": "^9.0.8",
@@ -29,6 +40,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-node": "^11.1.0",
     "glob": "^10.3.10",
+    "nodemon": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.2.5",
     "shelljs": "^0.8.5",
