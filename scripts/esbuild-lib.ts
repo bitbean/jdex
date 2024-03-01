@@ -1,7 +1,4 @@
-import {
-  PromiseWithChild,
-  exec as NodeChildProcessExec,
-} from "node:child_process";
+import { exec as NodeChildProcessExec } from "node:child_process";
 import { promisify } from "node:util";
 // import Path from "node:path";
 import { performance as perf } from "node:perf_hooks";
@@ -39,7 +36,7 @@ await build({
   platform: "node",
   format: "esm",
   sourcemap: "external",
-  target: "node16",
+  target: "node18",
   tsconfig: "tsconfig.json",
   // plugins: [
   // //   copyStaticFiles(),
@@ -105,7 +102,8 @@ function run(message: string, ...args: any[]) {
 
 function done() {
   const time = perf.now() - started;
-  console.log(
-    `⚡ \x1b[32mDone in ${Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(time)}ms\x1b[0m`,
-  );
+  const timeFmt = new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 2,
+  }).format(time);
+  console.log(`⚡ \x1b[32mDone in ${timeFmt}ms\x1b[0m`);
 }
