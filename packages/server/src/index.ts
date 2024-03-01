@@ -1,5 +1,5 @@
-export const Server = {
-  hello() {
-    console.log("Server");
-  }
-}
+import * as Jdex from "./public";
+
+export default Jdex;
+
+export * from "./public";

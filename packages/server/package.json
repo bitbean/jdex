@@ -40,6 +40,8 @@
     "rm-build": "shx rm -rf lib/",
     "test": "echo 'Sorry, no tests yet!'"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@sinclair/typebox": "^0.32.14",
+    "nanoid": "^5.0.6"
+  }
 }
