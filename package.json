@@ -8,7 +8,8 @@
   "workspaces": [
     "./packages/jdex",
     "./packages/server",
-    "./packages/client"
+    "./packages/client",
+    "./tests/unit"
   ],
   "scripts": {
     "audit": "NODE_ENV=production npm audit",

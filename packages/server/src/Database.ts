@@ -90,9 +90,7 @@ export class Database<DB> {
         maxItemsOneParent = Math.max(maxItemsOneParent, order + 1);
         const indent = ": ".repeat(depth) + "|";
         console.log(
-          (indent + "- " + node.name + (node.isDirectory ? "/" : "")).padEnd(
-            40,
-          ) +
+          (indent + "- " + node.name + (node.isDir ? "/" : "")).padEnd(40) +
             node.path.padEnd(80) +
             `depth: ${depth}, ord: ${order}, id: ${node.id}`,
         );

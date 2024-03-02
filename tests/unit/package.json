@@ -1,0 +1,22 @@
+{
+  "name": "@jdex/unit-tests",
+  "version": "1.0.0",
+  "description": "Jdex unit tests.",
+  "private": true,
+  "engines": {
+    "node": "^18.18.0 || >=20.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write \"./**/*.{css,js,jsx,scss,ts}\"",
+    "lint": "eslint . --ext .ts -c .eslintrc-prod",
+    "lint-fix": "eslint . --ext .ts --fix",
+    "lint-ts": "tsc --emitDeclarationOnly false --noEmit",
+    "start": "vitest",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.32.15",
+    "vitest": "^1.3.1"
+  }
+}

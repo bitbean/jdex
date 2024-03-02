@@ -100,7 +100,7 @@ export default class FsTransaction implements Transaction {
           id,
           name,
           pId,
-          isDirectory: isDirectoryNode(node),
+          isDir: isDirectoryNode(node),
           path: driver.getNodePath(node),
         },
         index,
