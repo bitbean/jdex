@@ -40,6 +40,11 @@ export interface FsDriverConfig {
   ids?: string | false;
 }
 
+export interface ILogger {
+  log(message: string, ...optionalParams: any[]): void;
+  warn(message: string, ...optionalParams: any[]): void;
+}
+
 export interface CreateNodeOptions {
   /** Cached id if already known. */
   id?: string;

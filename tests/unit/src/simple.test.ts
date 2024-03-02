@@ -18,3 +18,7 @@ test("Open database, print directory, close database.", async () => {
   });
   expect(err).toBeUndefined();
 });
+
+test("Something else", () => {
+  expect(true).toBe(true);
+});

@@ -2,7 +2,7 @@ import Path from "node:path";
 import FS from "node:fs";
 import { TSchema } from "@sinclair/typebox";
 // Local
-import { Config, Driver, TransactionCallback } from "./types";
+import { Config, Driver, ILogger, TransactionCallback } from "./types";
 import { FsDriver } from "./drivers/fs";
 
 /**
@@ -20,7 +20,8 @@ export class Database<DB> {
   // private _config: Config;
   // private _configFile?: string;
 
-  private _driver!: Driver;
+  private _driver: Driver;
+  private _logger: ILogger;
   /** `true` if {@link Database.open}, `false` if {@link Database.close}d */
   private _opened = false;
   private _schemas = new Map<keyof DB & string, TSchema>();
@@ -47,6 +48,7 @@ export class Database<DB> {
     }
     this[Symbol.toStringTag] = `Database("${configFile ?? path}")`;
     // this._configFile = configFile;
+    this._logger = console;
     this._driver = new FsDriver({
       config,
       configFile,
@@ -79,28 +81,29 @@ export class Database<DB> {
 
   /** Prints the directory and file nodes with `console.log`. */
   async printDirectory() {
+    const { _logger } = this;
     return this.transaction((files) => {
       let count = 0;
       let maxDepth = 0;
       let maxItemsOneParent = 0;
-      console.log("\n" + `Nodes in ${this}` + "\n");
+      _logger.log("\n" + `Nodes in ${this}` + "\n");
       files.eachNode((node, { depth, order }) => {
         count += 1;
         maxDepth = Math.max(maxDepth, depth);
         maxItemsOneParent = Math.max(maxItemsOneParent, order + 1);
         const indent = ": ".repeat(depth) + "|";
-        console.log(
+        _logger.log(
           (indent + "- " + node.name + (node.isDir ? "/" : "")).padEnd(40) +
             node.path.padEnd(80) +
             `depth: ${depth}, ord: ${order}, id: ${node.id}`,
         );
         // if (depth > 1) return false;
       });
-      console.log("");
-      console.log("            Total nodes:", count);
-      console.log("              Max depth:", maxDepth);
-      console.log("Max nodes single parent:", maxItemsOneParent);
-      console.log("");
+      _logger.log("");
+      _logger.log("            Total nodes:", count);
+      _logger.log("              Max depth:", maxDepth);
+      _logger.log("Max nodes single parent:", maxItemsOneParent);
+      _logger.log("");
     });
   }
 
