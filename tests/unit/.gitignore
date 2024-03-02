@@ -1,0 +1,11 @@
+# See https://help.github.com/articles/ignoring-files/ for help.
+
+# Dependencies
+node_modules/
+
+# Fixtures
+fixtures/**/project_db.ids.json
+
+# Misc
+/tmp
+.DS_Store
