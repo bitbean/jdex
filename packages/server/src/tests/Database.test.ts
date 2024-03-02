@@ -1,12 +1,10 @@
 // import Path from "node:path";
 // import * as FSP from "node:fs/promises";
+import { expect, test } from "vitest";
 // Packages
 // import { Database } from "@jdex/server";
 // Local
-// import { dirname } from "./common/paths";
 import { openDb } from "./common/projects";
-
-// const _dirname = dirname(import.meta);
 
 test("Open database, print directory, close database.", async () => {
   let err: any = undefined;

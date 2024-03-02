@@ -8,8 +8,7 @@
   "workspaces": [
     "./packages/jdex",
     "./packages/server",
-    "./packages/client",
-    "./tests/unit"
+    "./packages/client"
   ],
   "scripts": {
     "audit": "NODE_ENV=production npm audit",
@@ -19,11 +18,12 @@
     "rand": "cat /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c${C:-32};echo;",
     "rand-help": "echo 'Change count by running `C=21 npm run rand`'",
     "start": "nodemon",
-    "test": "npm run test --workspaces --if-present"
+    "test": "vitest run",
+    "test-watch": "vitest || true"
   },
   "nodemonConfig": {
     "delay": "250ms",
-    "exec": "run-s lint-ts build test",
+    "exec": "vitest run",
     "ext": "js,ts",
     "watch": [
       "./packages/jdex/src/",
@@ -48,6 +48,7 @@
     "shx": "^0.3.4",
     "tsc-alias": "^1.8.8",
     "tsx": "^4.7.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.3.1"
   }
 }

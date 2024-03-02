@@ -1,11 +1,11 @@
 import Path from "node:path";
 // Packages
-import { Database } from "@jdex/server";
+import { Database } from "../../";
 // Local
 import { dirname } from "./paths";
 
 const _dirname = dirname(import.meta);
-const fixtures_path = Path.join(_dirname, "../../fixtures/");
+const fixtures_path = Path.join(_dirname, "../../../fixtures/");
 
 export function openDb<DB = any, R = any>(
   path: string,

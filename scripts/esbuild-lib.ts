@@ -15,16 +15,16 @@ let started = 0;
 
 // NOTE: All paths should be relative to package being compiled...
 
-const ignoreFiles: string[] = [
-  // Files to ignore
-  // "src/types.ts",
-  // "src/internal.ts",
-];
-
-// Get all ts files
-let entryPoints = await glob("src/**/*.ts");
+// Get all ts files...
+const entryPoints = await glob("src/**/*.ts", {
+  // Except for
+  ignore: [
+    // Tests
+    "src/**/*tests/**",
+    "src/**/*.test.{ts,js}",
+  ],
+});
 // console.log("entryPoints", entryPoints);
-entryPoints = entryPoints.filter((p) => !ignoreFiles.includes(p));
 
 run("Running esbuild...");
 await build({

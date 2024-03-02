@@ -16,10 +16,6 @@
       "name": "packages/client",
       "path": "packages/client"
     },
-    {
-      "name": "tests/unit",
-      "path": "tests/unit"
-    },
   ],
   // Settings to apply when VS Code is started with this `.code-workspace`
   // file. Each of the workspace folders above can ALSO have their own
@@ -32,7 +28,6 @@
     "files.exclude": {
       // "docs/": true,
       "packages/": true,
-      "tests/": true,
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
