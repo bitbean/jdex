@@ -23,7 +23,7 @@
   },
   "nodemonConfig": {
     "delay": "250ms",
-    "exec": "run-s lint-ts build",
+    "exec": "run-s lint-ts build test",
     "ext": "js,ts",
     "watch": [
       "./packages/jdex/src/",

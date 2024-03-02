@@ -37,8 +37,7 @@
     "lint": "eslint . --ext .ts -c .eslintrc-prod",
     "lint-fix": "eslint . --ext .ts --fix",
     "lint-ts": "tsc --emitDeclarationOnly false --noEmit",
-    "rm-build": "shx rm -rf lib/*",
-    "test": "echo 'Sorry, no tests yet!'"
+    "rm-build": "shx rm -rf lib/*"
   },
   "dependencies": {},
   "devDependencies": {}
