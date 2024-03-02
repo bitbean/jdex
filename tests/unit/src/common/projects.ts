@@ -5,6 +5,7 @@ import { Database } from "@jdex/server";
 import { dirname } from "./paths";
 
 const _dirname = dirname(import.meta);
+const fixtures_path = Path.join(_dirname, "../../fixtures/");
 
 export function openDb<DB = any, R = any>(
   path: string,
@@ -32,6 +33,6 @@ export function withDb<DB = any, R = any>(
   path: string,
   cb: (db: Database<DB>) => R,
 ): R {
-  const db = new Database(Path.join(_dirname, "../../fixtures/", path));
+  const db = new Database(Path.join(fixtures_path, path));
   return cb(db);
 }
