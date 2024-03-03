@@ -4,7 +4,7 @@ import { expect, test } from "vitest";
 // Packages
 // import { Database } from "@jdex/server";
 // Local
-import { openDb } from "./common/projects";
+import { openDb } from "@/tests/common/projects";
 
 test("Open database, print directory, close database.", async () => {
   let err: any = undefined;

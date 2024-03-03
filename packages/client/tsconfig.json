@@ -1,9 +1,6 @@
 {
   "extends": "../../tsconfig.base.esbuild.json",
   "compilerOptions": {
-    // NOTE: baseUrl is possibly set for esbuild + extensionReplacer to work.
-    // TODO: Read. Test dev/build/dist with/without baseUrl set.
-    "baseUrl": ".",
     "outDir": "lib",
     // Custom aliases for our source paths instead of importing from `../../`...
     "paths": {
@@ -15,8 +12,4 @@
   "include": [
     "src",
   ],
-  "exclude": [
-    "src/**/*tests/**",
-    "src/**/*.test.ts",
-  ]
 }

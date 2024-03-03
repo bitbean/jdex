@@ -34,7 +34,7 @@
     "build-es": "tsx ../../scripts/esbuild-lib.ts",
     "build-ts": "tsc",
     "format": "prettier --write \"./**/*.{css,js,jsx,scss,ts}\"",
-    "lint": "eslint . --ext .ts -c .eslintrc-prod",
+    "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
     "lint-ts": "tsc --emitDeclarationOnly false --noEmit",
     "rm-build": "shx rm -rf lib/*"
