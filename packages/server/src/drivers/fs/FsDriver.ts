@@ -5,7 +5,7 @@ import { customAlphabet } from "nanoid";
 // import * as JsonPatch from "fast-json-patch";
 import { glob } from "glob";
 // Local
-import { Config, CreateNodeOptions, Driver, Transaction } from "../../types";
+import { Config, CreateNodeOptions, Driver, Transaction } from "@/types";
 import { IdsFile, Node, VisitNodeFn, isDirectoryNode } from "./types";
 import FsTransaction from "./FsTransaction";
 

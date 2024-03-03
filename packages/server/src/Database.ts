@@ -2,8 +2,8 @@ import Path from "node:path";
 import FS from "node:fs";
 import { TSchema } from "@sinclair/typebox";
 // Local
-import { Config, Driver, ILogger, TransactionCallback } from "./types";
-import { FsDriver } from "./drivers/fs";
+import { Config, Driver, ILogger, TransactionCallback } from "@/types";
+import { FsDriver } from "@/drivers/fs";
 
 /**
  * A JSON file system database engine.

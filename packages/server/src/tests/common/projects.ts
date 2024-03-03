@@ -1,6 +1,6 @@
 import Path from "node:path";
 // Packages
-import { Database } from "../../";
+import { Database } from "@/index";
 // Local
 import { dirname } from "./paths";
 
