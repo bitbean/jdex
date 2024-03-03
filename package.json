@@ -20,11 +20,11 @@
     "rand": "cat /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c${C:-32};echo;",
     "rand-help": "echo 'Change count by running `C=21 npm run rand`'",
     "test": "vitest run",
-    "test-watch": "vitest || true"
+    "test-watch": "vitest --reporter=verbose || true"
   },
   "nodemonConfig": {
     "delay": "250ms",
-    "exec": "vitest run",
+    "exec": "vitest run --reporter=verbose",
     "ext": "js,ts",
     "watch": [
       "./packages/jdex/src/",
