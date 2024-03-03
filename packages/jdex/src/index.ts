@@ -13,4 +13,4 @@ export interface NodeInfo {
   readonly ctime: number;
 }
 
-export {};
+export default {};
