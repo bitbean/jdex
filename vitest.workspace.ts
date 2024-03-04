@@ -15,7 +15,6 @@ export default defineWorkspace([
     },
     plugins: [tsconfigPaths],
   },
-  // "packages/jdex",
   {
     test: {
       name: "server",
@@ -24,7 +23,6 @@ export default defineWorkspace([
     },
     plugins: [tsconfigPaths],
   },
-  // "packages/server",
   {
     test: {
       name: "client",
@@ -33,5 +31,4 @@ export default defineWorkspace([
     },
     plugins: [tsconfigPaths],
   },
-  // "packages/client",
 ]);
