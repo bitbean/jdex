@@ -44,7 +44,7 @@ export class FsDriver implements Driver {
   constructor({ db }: { db: Database<any> }) {
     const { configFile, path } = db;
     let idsPath = db.config.fs?.ids;
-    if (idsPath !== false) {
+    if (configFile && idsPath !== false) {
       if (!idsPath) {
         // Set a default idsPath.
         const configExt = Path.extname(configFile);
@@ -253,7 +253,14 @@ export class FsDriver implements Driver {
       i += 1;
     }
   }
-
+  /**
+   * Gets a full path and optionally a node, for the given `id`. When no `id`
+   * is given, the path goes to the root folder and no `node` is returned.
+   * When an `id` is given, the path goes to the matching `node`. If the given
+   * `id` is not found, an **error** is thrown.
+   * @example
+   * const { node: pNode, path: pPath } = driver.getFullPathMaybeNode(pId);
+   */
   getFullPathMaybeNode(id?: string): {
     path: string;
     node?: Node;

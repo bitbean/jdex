@@ -31,7 +31,7 @@ export default class FsTransaction implements Transaction {
       driver.getFullPathMaybeNode(pId);
     // Make directory
     const newPath = Path.join(parentPath, name);
-    await FSP.mkdir(newPath);
+    await FSP.mkdir(newPath, { recursive: true });
     // Create node
     const node = driver.createNode(name, {
       isDir: true,

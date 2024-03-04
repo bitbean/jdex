@@ -7,7 +7,7 @@ import { FsDriver } from "@/drivers/fs";
 
 export interface DatabaseOptions extends Partial<Config> {
   /** Path to the config file. */
-  config: string;
+  config?: string;
 }
 
 /**
@@ -24,7 +24,7 @@ export class Database<DB> {
   /** The database configuration. */
   public readonly config: Readonly<Config>;
   /** The database configuration file path. */
-  public readonly configFile: string;
+  public readonly configFile?: string;
   /** The common driver interface of the configured implementation. */
   public readonly driver: Driver;
   /** The common logger interface of the configured implementation. */
@@ -48,26 +48,30 @@ export class Database<DB> {
         : configPathOrOptions;
     const { config: configPath, ...configDefaults } = options;
     // Resolve paths.
-    const configFile = Path.resolve(configPath);
-    const configDir = Path.dirname(configFile);
+    const configFile = configPath ? Path.resolve(configPath) : undefined;
+    const configDir = configFile ? Path.dirname(configFile) : undefined;
     // Get or create config.
     let config: Config = {
       root: configDefaults.root ?? "./data",
       ...configDefaults,
     };
-    if (!FS.existsSync(configFile)) {
-      FS.writeFileSync(configFile, JSON.stringify(config));
-    } else {
-      const configJson = FS.readFileSync(configFile).toString();
-      config = JSON.parse(configJson) as Config;
+    if (configFile) {
+      if (!FS.existsSync(configFile)) {
+        FS.writeFileSync(configFile, JSON.stringify(config));
+      } else {
+        const configJson = FS.readFileSync(configFile).toString();
+        config = JSON.parse(configJson) as Config;
+      }
     }
     // Get the main data path, ensure it exists.
-    const path = Path.join(configDir, config.root);
+    const path = Path.resolve(
+      configDir ? Path.join(configDir, config.root) : config.root,
+    );
     FS.mkdirSync(path, { recursive: true });
 
     Object.freeze(config);
 
-    this[Symbol.toStringTag] = `Database("${configFile}")`;
+    this[Symbol.toStringTag] = `Database("${configFile ?? path}")`;
     this.config = config;
     this.configFile = configFile;
     this.path = path;
