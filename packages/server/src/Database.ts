@@ -86,7 +86,9 @@ export class Database<DB> {
       let count = 0;
       let maxDepth = 0;
       let maxItemsOneParent = 0;
-      _logger.log("\n" + `Nodes in ${this}` + "\n");
+      _logger.log(
+        "\n" + `[${new Date().toISOString()}] Nodes in ${this}` + "\n",
+      );
       files.eachNode((node, { depth, order }) => {
         count += 1;
         maxDepth = Math.max(maxDepth, depth);
