@@ -5,6 +5,11 @@ import { TSchema } from "@sinclair/typebox";
 import { Config, Driver, ILogger, TransactionCallback } from "@/types";
 import { FsDriver } from "@/drivers/fs";
 
+export interface DatabaseOptions extends Partial<Config> {
+  /** Path to the config file. */
+  config: string;
+}
+
 /**
  * A JSON file system database engine.
  * @typeParam DB - The database file types interface. Keys of this type must
@@ -16,12 +21,15 @@ export class Database<DB> {
   public readonly [Symbol.toStringTag]: string = "Database";
   /** The root file path of the database. */
   public readonly path: string;
+  /** The database configuration. */
+  public readonly config: Readonly<Config>;
+  /** The database configuration file path. */
+  public readonly configFile: string;
+  /** The common driver interface of the configured implementation. */
+  public readonly driver: Driver;
+  /** The common logger interface of the configured implementation. */
+  public readonly logger: ILogger;
 
-  // private _config: Config;
-  // private _configFile?: string;
-
-  private _driver: Driver;
-  private _logger: ILogger;
   /** `true` if {@link Database.open}, `false` if {@link Database.close}d */
   private _opened = false;
   private _schemas = new Map<keyof DB & string, TSchema>();
@@ -32,29 +40,41 @@ export class Database<DB> {
    * Creates a new JSON file system database engine.
    * @param path The root file path to read from.
    */
-  constructor(path: string) {
-    path = Path.resolve(path);
-    let configFile: string | undefined = undefined;
-    const stats = FS.statSync(path);
-    let config: Config;
-    if (!stats.isDirectory()) {
-      configFile = path;
-      const configDir = Path.dirname(configFile);
-      const configJson = FS.readFileSync(path).toString();
-      config = JSON.parse(configJson) as Config;
-      path = Path.join(configDir, config.root);
+  constructor(configPathOrOptions: string | DatabaseOptions) {
+    // Normalize options.
+    const options =
+      typeof configPathOrOptions === "string"
+        ? { config: configPathOrOptions }
+        : configPathOrOptions;
+    const { config: configPath, ...configDefaults } = options;
+    // Resolve paths.
+    const configFile = Path.resolve(configPath);
+    const configDir = Path.dirname(configFile);
+    // Get or create config.
+    let config: Config = {
+      root: configDefaults.root ?? "./data",
+      ...configDefaults,
+    };
+    if (!FS.existsSync(configFile)) {
+      FS.writeFileSync(configFile, JSON.stringify(config));
     } else {
-      config = { root: "./" };
+      const configJson = FS.readFileSync(configFile).toString();
+      config = JSON.parse(configJson) as Config;
     }
-    this[Symbol.toStringTag] = `Database("${configFile ?? path}")`;
-    // this._configFile = configFile;
-    this._logger = console;
-    this._driver = new FsDriver({
-      config,
-      configFile,
-      path,
-    });
+    // Get the main data path, ensure it exists.
+    const path = Path.join(configDir, config.root);
+    FS.mkdirSync(path, { recursive: true });
+
+    Object.freeze(config);
+
+    this[Symbol.toStringTag] = `Database("${configFile}")`;
+    this.config = config;
+    this.configFile = configFile;
     this.path = path;
+    this.logger = console;
+    this.driver = new FsDriver({
+      db: this,
+    });
   }
   // #region Lifecycle
   /** Closes the database if opened. */
@@ -64,7 +84,7 @@ export class Database<DB> {
       return;
     }
     this._opened = false;
-    await this._driver.close();
+    await this.driver.close();
   }
   /**
    * Loads all directories and files within the database path.
@@ -74,19 +94,19 @@ export class Database<DB> {
     if (_opened) {
       throw new Error(`${this} is already opened.`);
     }
-    await this._driver.open();
+    await this.driver.open();
     this._opened = true;
   }
   // #endregion
 
   /** Prints the directory and file nodes with `console.log`. */
   async printDirectory() {
-    const { _logger } = this;
+    const { logger } = this;
     return this.transaction((files) => {
       let count = 0;
       let maxDepth = 0;
       let maxItemsOneParent = 0;
-      _logger.log(
+      logger.log(
         "\n" + `[${new Date().toISOString()}] Nodes in ${this}` + "\n",
       );
       files.eachNode((node, { depth, order }) => {
@@ -94,18 +114,18 @@ export class Database<DB> {
         maxDepth = Math.max(maxDepth, depth);
         maxItemsOneParent = Math.max(maxItemsOneParent, order + 1);
         const indent = ": ".repeat(depth) + "|";
-        _logger.log(
+        logger.log(
           (indent + "- " + node.name + (node.isDir ? "/" : "")).padEnd(40) +
             node.path.padEnd(80) +
             `depth: ${depth}, ord: ${order}, id: ${node.id}`,
         );
         // if (depth > 1) return false;
       });
-      _logger.log("");
-      _logger.log("            Total nodes:", count);
-      _logger.log("              Max depth:", maxDepth);
-      _logger.log("Max nodes single parent:", maxItemsOneParent);
-      _logger.log("");
+      logger.log("");
+      logger.log("            Total nodes:", count);
+      logger.log("              Max depth:", maxDepth);
+      logger.log("Max nodes single parent:", maxItemsOneParent);
+      logger.log("");
     });
   }
 
@@ -130,7 +150,7 @@ export class Database<DB> {
   // #region Transactions
 
   async transaction<T>(cb: TransactionCallback<T>): Promise<T> {
-    const runner = new TransactionRunner<T>(this._driver, cb);
+    const runner = new TransactionRunner<T>(this.driver, cb);
     this._transactionQueue.push(runner);
     this.processTransactionQueue();
     return runner.completed;

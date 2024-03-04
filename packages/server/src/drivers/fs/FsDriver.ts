@@ -5,7 +5,8 @@ import { customAlphabet } from "nanoid";
 // import * as JsonPatch from "fast-json-patch";
 import { glob } from "glob";
 // Local
-import { Config, CreateNodeOptions, Driver, Transaction } from "@/types";
+import type { Database } from "@/Database";
+import { CreateNodeOptions, Driver, Transaction } from "@/types";
 import { IdsFile, Node, VisitNodeFn, isDirectoryNode } from "./types";
 import FsTransaction from "./FsTransaction";
 
@@ -40,17 +41,10 @@ export class FsDriver implements Driver {
   /** The root file path of the database. */
   public readonly path: string;
 
-  constructor({
-    config,
-    configFile,
-    path,
-  }: {
-    config?: Config;
-    configFile?: string;
-    path: string;
-  }) {
-    let idsPath = config?.fs?.ids;
-    if (configFile && idsPath !== false) {
+  constructor({ db }: { db: Database<any> }) {
+    const { configFile, path } = db;
+    let idsPath = db.config.fs?.ids;
+    if (idsPath !== false) {
       if (!idsPath) {
         // Set a default idsPath.
         const configExt = Path.extname(configFile);

@@ -3,5 +3,6 @@
   "exclude": [
     "src/**/*tests/**",
     "src/**/*.test.ts",
+    "src/**/*.tests.ts",
   ]
 }

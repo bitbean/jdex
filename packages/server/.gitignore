@@ -2,3 +2,6 @@
 
 # Build
 lib/
+
+# Tests
+fixtures/new-project/
