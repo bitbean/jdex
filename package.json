@@ -13,14 +13,14 @@
   "scripts": {
     "audit": "NODE_ENV=production npm audit",
     "build": "npm run build --ws --if-present",
-    "dev": "nodemon",
+    "dev": "vitest --reporter=verbose || true",
     "format": "npm run format --ws --if-present",
     "lint": "npm run lint --ws --if-present",
     "lint-ts": "npm run lint-ts --ws --if-present",
     "rand": "cat /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c${C:-32};echo;",
     "rand-help": "echo 'Change count by running `C=21 npm run rand`'",
     "test": "vitest run",
-    "test-watch": "vitest --reporter=verbose || true"
+    "watch": "nodemon"
   },
   "nodemonConfig": {
     "delay": "250ms",
