@@ -2,7 +2,7 @@ import Path from "node:path";
 // import FS from "node:fs";
 import FSP from "node:fs/promises";
 // Local
-import { Jsonable, Transaction, NodeVisitorFn } from "@/types";
+import { Transaction, NodeVisitorFn } from "@/types";
 import type { FsDriver } from "./FsDriver";
 import { isDirectoryNode } from "./types";
 
@@ -49,7 +49,7 @@ export default class FsTransaction implements Transaction {
       data,
       pId,
     }: {
-      data: Jsonable;
+      data: unknown;
       pId?: string | null;
     },
   ) {

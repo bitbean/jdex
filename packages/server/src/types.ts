@@ -2,26 +2,6 @@ import type { NodeInfo } from "jdex";
 
 export { NodeInfo };
 
-/** A parsed JSON value. */
-export type JsonValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JsonValue[]
-  | { [key: string]: JsonValue };
-
-/** A JSON stringify-able value. */
-export type Jsonable =
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | Jsonable[]
-  | { [key: string]: Jsonable }
-  | { toJSON(): Jsonable };
-
 /** Configuration data loaded by the Database. */
 export interface Config {
   /** A relative or absolute path to the root data directory. */
@@ -83,7 +63,7 @@ export interface QueryInterface {
   /** Adds a file to the given parent node id and returns a new node id. */
   addFile(
     name: string,
-    info: { data: Jsonable; pId?: string | null },
+    info: { data: unknown; pId?: string | null },
   ): Promise<string>;
   /**
    * Traverses the tree in depth-first order calling the given callback for
